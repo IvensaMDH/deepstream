@@ -349,9 +349,8 @@ RUN set -eux; \
     mkdir -p /opt/half && \
     mkdir -p /tmp/half99 && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-      protobuf-compiler \
-      libprotobuf-dev && \
+    apt-get install --reinstall -y --allow-downgrades libprotobuf32t64=3.21.12-8.2ubuntu0.4 libprotoc32t64=3.21.12-8.2ubuntu0.4 && \
+    apt-get install -y --no-install-recommends protobuf-compiler libprotobuf-dev=3.21.12-8.2ubuntu0.4 && \
     mkdir -p /opt/proto/bin && \
     ln -sf /usr/bin/protoc /opt/proto/bin/protoc && \
     rm -rf /var/lib/apt/lists/* && \
