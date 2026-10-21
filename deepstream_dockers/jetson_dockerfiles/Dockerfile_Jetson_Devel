@@ -150,9 +150,8 @@ RUN mkdir -p /opt/tritonclient/ && \
         rm -rf tritonserver_sdk && \
         cd /tmp/temp_proto99 && \
         apt-get update && \
-        DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-          protobuf-compiler \
-          libprotobuf-dev && \
+        apt-get install --reinstall -y --allow-downgrades libprotobuf32t64=3.21.12-8.2ubuntu0.3 libprotoc32t64=3.21.12-8.2ubuntu0.3 && \
+        apt-get install -y --no-install-recommends protobuf-compiler libprotobuf-dev=3.21.12-8.2ubuntu0.3 && \
         mkdir -p /opt/proto/bin && \
         ln -sf /usr/bin/protoc /opt/proto/bin/protoc && \    
         cd /tmp/half99 && \
@@ -162,6 +161,10 @@ RUN mkdir -p /opt/tritonclient/ && \
         rm -rf /tmp/temp_triton99 && \
         rm -rf /tmp/temp_proto99 && \
         rm -rf /tmp/half99 
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install --reinstall -y --allow-downgrades libprotobuf32t64=3.21.12-8.2ubuntu0.3 libprotoc32t64=3.21.12-8.2ubuntu0.3 
+
 
 # open telemetry
 # Built from source instead of prebuilt .deb packages: the Debian/Ubuntu archives
