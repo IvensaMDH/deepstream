@@ -90,10 +90,6 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libopencv-dev=4.6.0+dfsg-13.1ubuntu1 && \
     ldconfig
 
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install --reinstall -y --allow-downgrades libprotobuf32t64=3.21.12-8.2ubuntu0.3 libprotoc32t64=3.21.12-8.2ubuntu0.3
-
-
 # open telemetry
 # Built from source instead of prebuilt .deb packages: the Debian/Ubuntu archives
 # rotate opentelemetry-cpp binaries out of the pool, which breaks the docker build.
@@ -106,7 +102,7 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       cmake \
       libgrpc++-dev \
-      libprotobuf-dev=3.21.12-8.2ubuntu0.3 \
+      libprotobuf-dev \
       nlohmann-json3-dev \
       protobuf-compiler \
       protobuf-compiler-grpc && \
