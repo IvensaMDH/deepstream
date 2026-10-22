@@ -340,7 +340,9 @@ Join the DeepStream community to ask questions, share feedback, and report issue
 
 # References
 
-- [DeepStream container (GHCR)](https://github.com/orgs/NVIDIA/packages/container/package/deepstream) — prebuilt runtime image (also bundles Triton). Older releases: [NGC catalog](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/deepstream).
+- DeepStream container — prebuilt runtime image (also bundles Triton).
+  - DS-9.2.0 and future releases: [GHCR](https://github.com/orgs/NVIDIA/packages/container/package/deepstream)
+  - DS-9.1.0 and previous releases: [NGC](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/deepstream)
 - [NVIDIA TAO Toolkit](https://developer.nvidia.com/tao-toolkit) — model training/optimization, source of the TAO sample apps.
 - [GStreamer documentation](https://gstreamer.freedesktop.org/documentation/) — underlying framework.
 
