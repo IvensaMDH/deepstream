@@ -162,7 +162,7 @@ deepstream-app -c source30_1080p_dec_infer-resnet_tiled_display.txt
 | [Overview & Architecture](https://docs.nvidia.com/deepstream/9.2/text/DS_Overview) | What DeepStream is, key features, and the GStreamer-based pipeline architecture. |
 | [Release Notes](https://docs.nvidia.com/deepstream/9.2/text/DS_Release_notes) | What's new in this release, supported platforms, and known issues. |
 | [Installation](https://docs.nvidia.com/deepstream/9.2/text/DS_Installation) | Step-by-step installation of the NVIDIA compute stack and DeepStream SDK on x86 and Jetson. |
-| [Docker Containers](https://docs.nvidia.com/deepstream/9.2/text/DS_docker_containers) | Available DeepStream container images (GHCR) (incl. Triton variants) and how to pull and run them. |
+| [Docker Containers](https://docs.nvidia.com/deepstream/9.2/text/DS_docker_containers) | Available DeepStream container images (incl. Triton variants) and how to pull and run them. |
 | [DeepStream Samples](https://docs.nvidia.com/deepstream/9.2/text/DS_C_Sample_Apps) | Reference walkthroughs of the bundled C/C++ sample applications and what each one demonstrates. |
 | [Reference Applications](https://docs.nvidia.com/deepstream/9.2/text/DS_ref_app_github) | Advanced GitHub-hosted reference apps demonstrating specialized end-to-end pipelines. |
 | [TAO Apps](https://docs.nvidia.com/deepstream/9.2/text/DS_TAO_integration) | DeepStream sample apps integrating TAO-trained models (detection, classification, segmentation, pose, LPR). |
