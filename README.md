@@ -312,8 +312,8 @@ wget --content-disposition 'https://github.com/NVIDIA/DeepStream/releases/downlo
 
 DeepStream Docker images are available from two registries, depending on the release:
 
-- DS-9.2.0 and future releases: [GHCR](https://github.com/orgs/NVIDIA/packages/container/package/deepstream) (`ghcr.io/nvidia/deepstream`)
-- DS-9.1.0 and previous releases: [NGC](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/deepstream)
+- DeepStream 9.2.0 and future releases: [GHCR](https://github.com/orgs/NVIDIA/packages/container/package/deepstream) (`ghcr.io/nvidia/deepstream`)
+- DeepStream 9.1.0 and previous releases: [NGC](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/deepstream)
 
 For example, to pull the DeepStream 9.2 Triton image from GHCR:
 
@@ -344,8 +344,8 @@ Join the DeepStream community to ask questions, share feedback, and report issue
 # References
 
 - DeepStream container — prebuilt runtime image (also bundles Triton).
-  - DS-9.2.0 and future releases: [GHCR](https://github.com/orgs/NVIDIA/packages/container/package/deepstream)
-  - DS-9.1.0 and previous releases: [NGC](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/deepstream)
+  - DeepStream 9.2.0 and future releases: [GHCR](https://github.com/orgs/NVIDIA/packages/container/package/deepstream)
+  - DeepStream 9.1.0 and previous releases: [NGC](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/deepstream)
 - [NVIDIA TAO Toolkit](https://developer.nvidia.com/tao-toolkit) — model training/optimization, source of the TAO sample apps.
 - [GStreamer documentation](https://gstreamer.freedesktop.org/documentation/) — underlying framework.
 
