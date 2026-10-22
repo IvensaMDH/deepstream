@@ -308,15 +308,20 @@ wget --content-disposition 'https://github.com/NVIDIA/DeepStream/releases/downlo
 
 > **NOTE:** Replace `deepstream-9.2_9.2.0-1_amd64.deb` with the name of the asset you want to download.
 
-## Docker Images (GHCR)
+## Docker Images
 
-DeepStream 9.2 Docker images are released on the GitHub Container Registry (GHCR). Browse the available tags on the [DeepStream package page](https://github.com/orgs/NVIDIA/packages/container/package/deepstream) and pull them from `ghcr.io/nvidia/deepstream`, for example:
+DeepStream Docker images are available from two registries, depending on the release:
+
+- DS-9.2.0 and future releases: [GHCR](https://github.com/orgs/NVIDIA/packages/container/package/deepstream) (`ghcr.io/nvidia/deepstream`)
+- DS-9.1.0 and previous releases: [NGC](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/deepstream)
+
+For example, to pull the DeepStream 9.2 Triton image from GHCR:
 
 ```bash
 docker pull ghcr.io/nvidia/deepstream:9.2-triton-multiarch
 ```
 
-> **NOTE:** Older DeepStream releases (9.1 and earlier) are still available on NGC. Refer to the [DeepStream NGC container catalog](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/deepstream) for those versions.
+> **NOTE:** For `docker login` and `docker pull` details for 9.1.0 and earlier, along with the full list of available image tags, refer to the [DeepStream NGC container catalog](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/deepstream).
 
 # Contribution Guidelines
 This project is currently not accepting contributions. The product roadmap is managed internally by NVIDIA.
