@@ -321,8 +321,6 @@ For example, to pull the DeepStream 9.2 Triton image from GHCR:
 docker pull ghcr.io/nvidia/deepstream:9.2-triton-multiarch
 ```
 
-> **NOTE:** For `docker login` and `docker pull` details for 9.1.0 and earlier, along with the full list of available image tags, refer to the [DeepStream NGC container catalog](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/deepstream).
-
 # Contribution Guidelines
 This project is currently not accepting contributions. The product roadmap is managed internally by NVIDIA.
 
