@@ -36,7 +36,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             build-essential libeigen3-dev libssl-dev \
-            cuda-nvcc-13-4 cuda-cudart-dev-13-4 \
+            cuda-nvcc-13-4 cuda-cudart-dev-13-4 cuda-nvtx-13-4 \
             "libnvinfer-dev=$TRT_PACKAGE_VERSION" \
             "libnvinfer-plugin-dev=$TRT_PACKAGE_VERSION" \
             "libnvonnxparsers-dev=$TRT_PACKAGE_VERSION"
