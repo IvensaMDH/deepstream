@@ -8,7 +8,7 @@ set -euo pipefail
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 mkdir -p "$1"
 output=$(cd "$1" && pwd)
-cuda="/usr/local/cuda-${CUDA_VER:-13.4}"
+cuda="/usr/local/cuda-${CUDA_VER:-13.2}"
 trt_include=${TRT_INCLUDE_DIR:-/usr/include/x86_64-linux-gnu}
 trt_lib=${TRT_LIB_DIR:-/usr/lib/x86_64-linux-gnu}
 eigen_include=${EIGEN_INCLUDE_DIR:-/usr/include/eigen3}
@@ -28,12 +28,12 @@ cflags="-fPIC -std=c++14 -O2 -DNDEBUG -Wall -Werror -Wno-deprecated-declarations
 libs="-shared -Wl,-no-undefined -L$trt_lib -lnvinfer -lnvinfer_plugin -lnvonnxparser -L$cuda/lib64 -lcudart -L$bundle/lib -lnvds_inferlogger -ldl -Wl,-rpath,'\$\$ORIGIN'"
 nvcc="$cuda/bin/nvcc --generate-code=arch=compute_75,code=sm_75 --generate-code=arch=compute_86,code=sm_86 --generate-code=arch=compute_89,code=sm_89"
 
-make -B -C "$root/src/utils/nvdsinfer_logger" CUDA_VER="${CUDA_VER:-13.4}" CFLAGS="$cflags" LIBS=-shared
+make -B -C "$root/src/utils/nvdsinfer_logger" CUDA_VER="${CUDA_VER:-13.2}" CFLAGS="$cflags" LIBS=-shared
 cp "$root/src/utils/nvdsinfer_logger/libnvds_inferlogger.so" "$bundle/lib/"
-make -B -C "$root/src/utils/nvdsinferutils" CUDA_VER="${CUDA_VER:-13.4}" PKGS= \
+make -B -C "$root/src/utils/nvdsinferutils" CUDA_VER="${CUDA_VER:-13.2}" PKGS= \
     CFLAGS="$cflags -fvisibility=hidden -I. -Iinclude -Idbscan -I../nvdsinfer -I../nvdsinfer_logger -isystem $eigen_include" LIBS="$libs -lcrypto"
 cp "$root/src/utils/nvdsinferutils/libnvds_inferutils.so" "$bundle/lib/"
-make -B -j2 -C "$root/src/utils/nvdsinfer" CUDA_VER="${CUDA_VER:-13.4}" NVCC="$nvcc" \
+make -B -j2 -C "$root/src/utils/nvdsinfer" CUDA_VER="${CUDA_VER:-13.2}" NVCC="$nvcc" \
     CFLAGS="$cflags" LIBS="$libs -lpthread -lnvds_inferutils"
 cp "$root/src/utils/nvdsinfer/libnvds_infer.so" "$bundle/lib/"
 
@@ -55,7 +55,7 @@ deepstream_version=$(sed -n 's/^NVDS_VERSION:=[[:space:]]*//p' "$root/src/utils/
     echo "source=$(git -C "$root" rev-parse HEAD)"
     echo "deepstream=$deepstream_version"
     echo "tensorrt=$version"
-    echo "cuda=${CUDA_VER:-13.4}"
+    echo "cuda=${CUDA_VER:-13.2}"
     echo "gpu_targets=75,86,89"
     echo "validation=build-and-link-only; GPU inference must be tested separately"
     "$cuda/bin/nvcc" --version

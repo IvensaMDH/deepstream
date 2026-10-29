@@ -16,12 +16,17 @@ tar -xzf trt11-artifact/nvinfer-trt11-linux-x86_64.tar.gz
 (cd nvinfer-trt11 && sha256sum -c SHA256SUMS)
 ```
 
-The build uses Ubuntu 24.04, CUDA 13.4, and TensorRT 11.4.0.106. Version pins are
+The build uses Ubuntu 24.04, CUDA 13.2, and TensorRT 11.4.0.106. Version pins are
 in `.github/workflows/build-trt11.yml`. CUDA kernels include native targets for
 T4 (75), RTX/Ampere (86), and L4/L40S (89). After a manual rebase, rerun the workflow;
 update the toolkit pins yourself if the new source needs different versions.
 The artifact's DeepStream version comes from the checked-out Makefile. Use it
 only with that matching SDK version, not with older DeepStream plugin binaries.
+
+The TensorRT package is NVIDIA's CUDA-13.x build (its package suffix is
+`cuda13.4`); the companion kernels are compiled with 13.2 to align with the
+deployment fleet. This does not waive driver requirements or guarantee every
+TensorRT11 model works on an older driver. Validate on the actual deployment GPU.
 
 ## Add to a Docker build
 
@@ -54,5 +59,5 @@ into the same process.
 To build locally with an installed development stack:
 
 ```bash
-CUDA_VER=13.4 bash build/tensorrt11/build.sh /tmp/trt11-output
+CUDA_VER=13.2 bash build/tensorrt11/build.sh /tmp/trt11-output
 ```
