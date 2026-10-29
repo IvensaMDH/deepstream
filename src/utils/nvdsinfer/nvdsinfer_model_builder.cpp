@@ -39,6 +39,7 @@
 
 namespace nvdsinfer {
 
+#if NV_TENSORRT_MAJOR < 11
 /* Helper function to check if TensorRT version is 10.x or higher */
 static bool isTrt10OrHigher()
 {
@@ -189,6 +190,7 @@ ExplicitBuildParams::configBuilder(TrtModelBuilder& trtBuilder)
 {
     return trtBuilder.configExplicitOptions(*this);
 }
+#endif
 
 TrtEngine::TrtEngine(std::unique_ptr<nvinfer1::ICudaEngine>&& engine,
     const std::shared_ptr<nvinfer1::IRuntime>& runtime, int dlaCore,
@@ -385,6 +387,7 @@ TrtModelBuilder::TrtModelBuilder(int gpuId, nvinfer1::ILogger& logger,
     const std::shared_ptr<DlLibHandle>& dlHandle, bool isEngineFile)
     : m_GpuId(gpuId), m_Logger(logger), m_DlLib(dlHandle)
 {
+#if NV_TENSORRT_MAJOR < 11
     if (!isEngineFile)
     {
         m_Builder.reset(nvinfer1::createInferBuilder(logger));
@@ -392,8 +395,13 @@ TrtModelBuilder::TrtModelBuilder(int gpuId, nvinfer1::ILogger& logger,
         m_BuilderConfig.reset(m_Builder->createBuilderConfig());
         assert(m_BuilderConfig);
     }
+#else
+    if (!isEngineFile)
+        dsInferError("TensorRT 11 engine-only build requires a prebuilt engine");
+#endif
 }
 
+#if NV_TENSORRT_MAJOR < 11
 /* Get already built CUDA Engine from custom library. */
 std::unique_ptr<TrtEngine>
 TrtModelBuilder::getCudaEngineFromCustomLib(NvDsInferCudaEngineGetFcnDeprecated cudaEngineGetDeprecatedFcn,
@@ -1283,6 +1291,23 @@ TrtModelBuilder::configExplicitOptions(ExplicitBuildParams& params)
 
     return NVDSINFER_SUCCESS;
 }
+
+#else
+std::unique_ptr<TrtEngine>
+TrtModelBuilder::buildModel(const NvDsInferContextInitParams&,
+    std::string&)
+{
+    dsInferError("TensorRT 11 engine-only build does not support model conversion");
+    return nullptr;
+}
+
+std::unique_ptr<TrtEngine>
+TrtModelBuilder::buildEngine(nvinfer1::INetworkDefinition&, BuildParams&)
+{
+    dsInferError("TensorRT 11 engine-only build does not support engine building");
+    return nullptr;
+}
+#endif
 
 /* Serialize engine and write to file.*/
 NvDsInferStatus

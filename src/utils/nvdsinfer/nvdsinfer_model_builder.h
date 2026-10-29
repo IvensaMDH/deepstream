@@ -266,10 +266,12 @@ public:
         m_Parser.reset();
     }
 
+#if NV_TENSORRT_MAJOR < 11
     void setInt8Calibrator(std::unique_ptr<nvinfer1::IInt8Calibrator>&& calibrator)
     {
         m_Int8Calibrator = std::move(calibrator);
     }
+#endif
 
     /* Populate INetworkDefinition by parsing the model, build the engine and
      * return it as TrtEngine instance. Also, returns a suggested path for
@@ -341,7 +343,9 @@ private:
     std::unique_ptr<nvinfer1::IBuilder> m_Builder;
     std::unique_ptr<nvinfer1::IBuilderConfig> m_BuilderConfig;
     std::unique_ptr<nvinfer1::INetworkDefinition> m_Network;
+#if NV_TENSORRT_MAJOR < 11
     std::shared_ptr<nvinfer1::IInt8Calibrator> m_Int8Calibrator;
+#endif
 
     friend class BuildParams;
     friend class ImplicitBuildParams;

@@ -57,6 +57,7 @@ namespace nvdsinfer {
  * Since this implementation only reads from pre-generated calibration tables,
  * readCalibrationCache is requires to be implemented.
  */
+#if NV_TENSORRT_MAJOR < 11
 class NvDsInferInt8Calibrator : public nvinfer1::IInt8EntropyCalibrator2
 {
 public:
@@ -106,6 +107,7 @@ private:
     std::string m_CalibrationTableFile;
     std::vector<char> m_CalibrationCache;
 };
+#endif
 
 /* Cuda callback function for returning input back to client. */
 static void
@@ -2199,6 +2201,11 @@ NvDsInferContextImpl::deserializeEngineAndBackend(const std::string enginePath,
 std::unique_ptr<BackendContext>
 NvDsInferContextImpl::buildModel(NvDsInferContextInitParams& initParams)
 {
+#if NV_TENSORRT_MAJOR >= 11
+    printError("TensorRT 11 engine-only build requires a valid model-engine-file; "
+        "automatic engine building and calibration are unavailable");
+    return nullptr;
+#else
     printInfo("Trying to create engine from model files");
 
     std::unique_ptr<TrtModelBuilder> builder =
@@ -2258,6 +2265,7 @@ NvDsInferContextImpl::buildModel(NvDsInferContextInitParams& initParams)
     builder.reset();
 
     return backend;
+#endif
 }
 
 /* Deserialize engine and create backend context for the model from the init

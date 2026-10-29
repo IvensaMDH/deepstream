@@ -35,6 +35,7 @@
 
 using namespace nvdsinfer;
 
+#if NV_TENSORRT_MAJOR < 11
 static const int __NONCE_SIZE = 16;
 static const int __KEY_SIZE = 32;
 static const int __CHUNK_SIZE = 1024;
@@ -331,3 +332,16 @@ bool NvDsInferCudaEngineGetFromTltModel( nvinfer1::IBuilder * const builder,
 
     return true;
 }
+#else
+extern "C" __attribute__ ((visibility ("default")))
+bool NvDsInferCudaEngineGetFromTltModel(nvinfer1::IBuilder * const,
+        nvinfer1::IBuilderConfig * const,
+        const NvDsInferContextInitParams * const,
+        nvinfer1::DataType,
+        nvinfer1::ICudaEngine *& cudaEngine)
+{
+    cudaEngine = nullptr;
+    dsInferError("TensorRT 11 engine-only build does not support TLT conversion");
+    return false;
+}
+#endif
