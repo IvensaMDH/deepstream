@@ -1,0 +1,51 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Mathias Dall-Hansen
+# SPDX-License-Identifier: Apache-2.0
+
+name: Build TensorRT 11 inference libraries
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      CUDA_VER: "13.4"
+      TRT_PACKAGE_VERSION: "11.4.0.106-1+cuda13.4"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            includes
+            src/utils/nvdsinfer
+            src/utils/nvdsinferutils
+            src/utils/nvdsinfer_logger
+            build/tensorrt11
+
+      - name: Install compiler and TensorRT development libraries
+        run: |
+          curl -fsSL -o "$RUNNER_TEMP/cuda-keyring.deb" \
+            https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
+          echo "d2a6b11c096396d868758b86dab1823b25e14d70333f1dfa74da5ddaf6a06dba  $RUNNER_TEMP/cuda-keyring.deb" | sha256sum -c -
+          sudo dpkg -i "$RUNNER_TEMP/cuda-keyring.deb"
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential libeigen3-dev libssl-dev \
+            cuda-nvcc-13-4 cuda-cudart-dev-13-4 \
+            "libnvinfer-dev=$TRT_PACKAGE_VERSION" \
+            "libnvinfer-plugin-dev=$TRT_PACKAGE_VERSION" \
+            "libnvonnxparsers-dev=$TRT_PACKAGE_VERSION"
+
+      - name: Build the three inference libraries
+        run: bash build/tensorrt11/build.sh "$RUNNER_TEMP/trt11"
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: nvinfer-trt11-linux-x86_64
+          path: ${{ runner.temp }}/trt11/nvinfer-trt11-linux-x86_64.tar.gz
+          if-no-files-found: error
